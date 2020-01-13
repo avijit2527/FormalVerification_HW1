@@ -58,6 +58,15 @@ object Main {
         val exp6 = and(a,b,c,not(d))
         assert(Evaluation.areEquivalent(exp5, not(exp6)) == false)
     }
+    
+    def testSimplify = {
+
+        val exp1 = Not(Not(a))
+        val exp2 = not(or(not(a), not(b)))
+
+
+      
+    }
 
 
     def main(args: Array[String]) 
@@ -65,6 +74,7 @@ object Main {
 
         testEvaluate
         testEquivalence
+        testSimplify
         /*
             Add more tests here
         */
