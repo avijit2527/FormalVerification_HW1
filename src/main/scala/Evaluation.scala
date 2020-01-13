@@ -48,9 +48,11 @@ object Evaluation {
 
         e match {        
             case Variable(name) => Variable(name)
+            
             case BoolLit(value) => BoolLit(value)
+            
             case And(args) => {
-                if (args.contains(BoolLit(false))){println(args);println(e);println(); return BoolLit(false)}
+                if (args.contains(BoolLit(false))){ return BoolLit(false)}
                 var unique_args = args
                 for (a <- args){
                     if (args.contains(Not(a))) {return BoolLit(false)}
@@ -62,10 +64,19 @@ object Evaluation {
                 for (a <- unique_args){
                     argumentList = argumentList :+ simplify(a)
                 } 
-
                 
-                return And(argumentList)                               
+                if (e.toString() == And(argumentList).toString()){
+                    if (argumentList.length == 1){
+                        return argumentList(0)
+                    }else{
+                        return And(argumentList)
+                    }
+                }
+                var simlifiedArgument = simplify(And(argumentList))
+                return simlifiedArgument                              
             }
+            
+            
             case Or(args) =>  {
                 if (args.contains(BoolLit(true))){return BoolLit(true)}
                 var unique_args = args
@@ -80,14 +91,22 @@ object Evaluation {
                     argumentList = argumentList :+ simplify(a)
                 } 
 
-                
-                return Or(argumentList)                               
+                if (e.toString() == Or(argumentList).toString()){
+                    if (argumentList.length == 1){
+                        return argumentList(0)
+                    }else{
+                        return Or(argumentList)
+                    }
+                }
+                var simlifiedArgument = simplify(Or(argumentList))
+                return simlifiedArgument                              
             }
             
-            case Not(args) => {
-                args match {
+            case Not(arg) => {
+                arg match {
                     case Not(s) => s
-                    case _ => simplify(args)
+                    case BoolLit(value) => BoolLit(!value)
+                    case _ => Not(simplify(arg))
                 }
             }
         }

@@ -13,6 +13,9 @@ object Main {
     def b = var_("b")
     def c = var_("c")
     def d = var_("d")
+    def e = var_("e")
+    def f = var_("f")
+    def g = var_("g")
 
     def testEvaluate = {
 
@@ -62,9 +65,59 @@ object Main {
     def testSimplify = {
 
         val exp1 = Not(Not(a))
-        val exp2 = not(or(not(a), not(b)))
+        val exp2 = not(and(not(a), not(b)))
+        val exp3 = and(and(a,b), and(c,d), lit(true))
+        val exp4 = and(and(a,b), and(c,d), lit(false))
+        val exp5 = and(and(a,b), not(and(a,b)), lit(true))
+        val exp6 = and(and(a,b), and(a,b), lit(true))
 
 
+        val exp7 = or(and(a, b, lit(true)), and(or(b, lit(false)), c))
+        val exp8 = or(and(a, not(and(lit(true), a))), c, not(or(and(a, not(b)), not(and(a, not(b))))))
+        val exp9 = and(a, not(and(lit(true), a)))
+        val exp10 = and(or(and(a,b), and(a,b), and(c, c, d, d), or(b)))
+        val exp11 = and(a, not(and(lit(true), a)))
+
+
+        
+        
+        
+        println("-------------------------------------------")
+        println(exp1)
+        println(Evaluation.simplify(exp1))
+        println("-------------------------------------------")
+        println(exp2)
+        println(Evaluation.simplify(exp2))
+        println("-------------------------------------------")
+        println(exp3)
+        println(Evaluation.simplify(exp3))
+        println("-------------------------------------------")
+        println(exp4)
+        println(Evaluation.simplify(exp4))
+        println("-------------------------------------------")
+        println(exp5)
+        println(Evaluation.simplify(exp5))
+        println("-------------------------------------------")
+        println(exp6)
+        println(Evaluation.simplify(exp6))
+        
+        println("-------------------------------------------")
+        println(exp7)
+        println(Evaluation.simplify(exp7))
+        println("-------------------------------------------")
+        println(exp8)
+        println(Evaluation.simplify(exp8))
+        println("-------------------------------------------")
+        println(exp9)
+        println(Evaluation.simplify(exp9))
+        println("-------------------------------------------")
+        println(exp10)
+        println(Evaluation.simplify(exp10))
+        println("-------------------------------------------")
+        println(exp11)
+        println(Evaluation.simplify(exp11))
+        
+        
       
     }
 
